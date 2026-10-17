@@ -1,0 +1,2117 @@
+{
+    "schemes": [],
+    "swagger": "2.0",
+    "info": {
+        "description": "Esta es la documentacion de la API de la DGCP cuya finalidad es la exposición de datos publicos de contrataciones de una manera sencilla, explotable y reutilizable\n\n\n*Esta API obtiene los datos desde el Data Warehouse del Departamento de Ciencia de Datos. Dicho repositorio se actualiza cuatro veces al día (00:00, 07:00, 14:00 y 21:00, hora de República Dominicana); por lo tanto, es posible que algunas informaciones no reflejen cambios recientes si estos fueron realizados dentro del intervalo de actualización.*",
+        "title": "API DGCP",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "email": "cienciadedatos@dgcp.gob.do"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "datosabiertos.dgcp.gob.do/api-dgcp/v1",
+    "basePath": "/",
+    "paths": {
+        "/catalogo": {
+            "get": {
+                "description": "Obtiene todos los registros de catálogo filtrados por segmento, familia, clase o subclase.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catálogo"
+                ],
+                "summary": "Obtiene el registro de catálogo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera página en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae todas las primeras 100 registros en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código del segmento, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "segmento",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código de la familia, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "familia",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código de la clase, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "clase",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código de la subclase, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "subclase",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Indica si se desea filtrar por registros que poseen ficha técnica 'true' o 'false'. La API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "posee_ficha_tecnica",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/contratos": {
+            "get": {
+                "description": "Obtiene todos los contratos ya publicos registrados en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Contratos"
+                ],
+                "summary": "Obtiene el registro de contratos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 contratos en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Rpe del proveedor, la API por defecto trae todos los contratos en caso de no delimitarse",
+                        "name": "rpe",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Codigo del proceso, la API por defecto trae los contratos de todos los procesos organizados por fecha de registro en caso de no delimitarse",
+                        "name": "proceso",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Codigo de la unidad de compra, la API por defecto trae los contratos por orden de fecha de registro en caso de no delimitarse",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Codigo del contrato, la API por defecto trae todos los contratos en orden de fecha de registro en caso de no delimitarse",
+                        "name": "contrato",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/contratos/articulos": {
+            "get": {
+                "description": "Obtiene todos los artículos contratados asociados a un proceso o contrato específico registrado en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Contratos"
+                ],
+                "summary": "Obtiene el registro de artículos contratados",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera página en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Límite de registros, la API por defecto trae los primeros 100 artículos en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código del proceso, la API por defecto trae los artículos de todos los procesos en caso de no delimitarse",
+                        "name": "proceso",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código del contrato, la API por defecto trae los artículos de todos los contratos en caso de no delimitarse",
+                        "name": "contrato",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Familia del articulo, la API por defecto trae todos los artículos en caso de no delimitarse",
+                        "name": "familia",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Clase del articulo, la API por defecto trae todos los artículos en caso de no delimitarse",
+                        "name": "clase",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Subclase del articulo, la API por defecto trae todos los artículos en caso de no delimitarse",
+                        "name": "subclase",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ocds/releases": {
+            "get": {
+                "description": "Obtiene la informacion de un release siguiendo el estandar internacional de OCDS (Open Contracting Data Standard) al ingresar el OCID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OCDS"
+                ],
+                "summary": "Release de un proceso OCDS a traves de su ocid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OCID del proceso OCDS. Codigo para Republica Dominicana: ocds-6550wx-CODIGO_PROCESO",
+                        "name": "ocid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.OcdsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ocds/releases/all": {
+            "get": {
+                "description": "Obtiene los releases siguiendo el estandar internacional de OCDS (Open Contracting Data Standard)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OCDS"
+                ],
+                "summary": "Releases de todos los procesos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 registros en caso de no delimitarse el limite maximo son 1000 registros",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "La API por defecto trae todos los procesos en caso de no delimitarse (Estructura YYYY-MM-DD)",
+                        "name": "start_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "La API por defecto trae todos los procesos en caso de no delimitarse (Estructura YYYY-MM-DD)",
+                        "name": "end_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año del proceso, la API por defecto trae todos los procesos en caso de no delimitarse",
+                        "name": "year",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Codigo de la unidad de compra, la API por defecto trae las ofertas de todos los procesos en caso de no delimitarse",
+                        "name": "uc",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.OcdsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ofertas": {
+            "get": {
+                "description": "Obtiene todas las ofertas  ya publicas registradas en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Obtiene el registro de ofertas",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae las primeras 100 ofertas en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Rpe del proveedor, la API por defecto trae todas las ofertas en caso de no delimitarse",
+                        "name": "rpe",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Codigo del proceso, la API por defecto trae las ofertas de todos los procesos organizados por fecha de registro en caso de no delimitarse",
+                        "name": "proceso",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Codigo de la unidad de compra, la API por defecto trae las ofertas por orden de fecha de registro en caso de no delimitarse",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pacc": {
+            "get": {
+                "description": "Obtiene los registro de PACC segun el número de página y el límite de registros",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PACC"
+                ],
+                "summary": "Obtiene el registro de PACC",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 registros en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año del PACC, la API por defecto trae los del año actual en caso de no delimitarse",
+                        "name": "año",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Codigo de la unidad de compra, la API por defecto trae todas las unidades de compra en caso de no delimitarse",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id del PACC: 'PACC'-AÑO-'UC'-CODIGO_UNIDAD_COMPRA, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pacc/adquisiciones": {
+            "get": {
+                "description": "Obtiene todas las adquisiciones registradas en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PACC"
+                ],
+                "summary": "Obtiene el registro de adquisiciones del PACC",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 registros en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Codigo de la unidad de compra, la API por defecto trae todas las unidades de compra en caso de no delimitarse",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año del PACC, la API por defecto trae los del año actual en caso de no delimitarse",
+                        "name": "año",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID del pacc, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "pacc_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pacc/articulos": {
+            "get": {
+                "description": "Obtiene los articulos de PACC asociados a una unidad de compra o adquisicion especificos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PACC"
+                ],
+                "summary": "Obtiene el registro de articulos del PACC",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 registros en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Codigo de la unidad de compra, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID de la adquisicion del pacc, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "adquisicion_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID del pacc, la API por defecto trae todos los registros en caso de no delimitarse",
+                        "name": "pacc_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año del PACC, la API por defecto trae los del año actual en caso de no delimitarse",
+                        "name": "año",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos": {
+            "get": {
+                "description": "Obtiene todos los procesos registrados en el sistema por orden de fecha publicacion",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Registro de procesos publicados",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 registros en caso de no delimitarse el limite maximo son 1000 registros",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Código del proceso, la API por defecto trae todos los procesos en caso de no delimitarse",
+                        "name": "proceso",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Código de unidad de compra, la API por defecto trae los procesos por orden de fecha de publicacion en caso de no delimitarse",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Modalidad del proceso, la API por defecto trae todos los procesos en caso de no delimitarse",
+                        "name": "modalidad",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Estado del proceso, la API por defecto trae todos los procesos en caso de no delimitarse",
+                        "name": "estado",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Mipyme del proceso, la API por defecto trae todos los procesos en caso de no delimitarse",
+                        "name": "mipyme",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Mipyme Mujer del proceso, la API por defecto trae todos los procesos en caso de no delimitarse",
+                        "name": "mipyme_mujer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Fecha de publicacion del proceso, la API por defecto trae todos los procesos en caso de no delimitarse. Estructura YYYY-MM-DD",
+                        "name": "startdate",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Fecha de publicacion del proceso, la API por defecto trae todos los procesos en caso de no delimitarse. Estructura YYYY-MM-DD",
+                        "name": "enddate",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos/agrupados": {
+            "get": {
+                "description": "Obtiene todos los procesos agrupados por modalidad, tipo de excepción, unidad de compra, título y descripción",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Obtiene los procesos agrupados por modalidad, tipo de excepción, unidad de compra, título y descripción",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Código de unidad de compra, necesario para obtener los procesos asociados",
+                        "name": "unidad_compra",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos/articulos": {
+            "get": {
+                "description": "Obtiene la lista de articulos de un proceso",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Obtiene la lista de articulos de un proceso",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Código del proceso, la API por defecto trae la lista de articulos de todos los procesos",
+                        "name": "proceso",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Código de familia, la API por defecto trae la lista de articulos de todas las familias y subclases",
+                        "name": "familia",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Código de clase, la API por defecto trae la lista de articulos de todas las familias y subclases",
+                        "name": "clase",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Código de subclase, la API por defecto trae la lista de articulos de todas las familias y subclases",
+                        "name": "subclase",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Número de página, la API por defecto trae la lista de articulos de la primera página",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Límite de articulos a mostrar por página, la API por defecto trae la lista de articulos de 100 por página",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos/documentos": {
+            "get": {
+                "description": "Obtiene todos los documentos registrados en el sistema asociados a un código de proceso específico",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Obtiene los documentos de un proceso",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Código del proceso, necesario para obtener los documentos asociados",
+                        "name": "proceso",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos/mipymes/articulos": {
+            "get": {
+                "description": "Obtiene los 10 articulos mas adjudicados a mipymes y mipymes mujeres",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Obtiene articulos adjudicados a mipymes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos/mipymes/cuota_global": {
+            "get": {
+                "description": "Obtiene el monto adjudicado y el porcentaje de contratos adjudicados a mipymes y a mipymes de mujeres en un año",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Obtiene el calculo de la cuota mipymes por el estado",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Año, la API por defecto trae el monto adjudicado y el porcentaje de contratos adjudicados a mipymes y a mipymes de mujeres del año actual",
+                        "name": "año",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/procesos/mipymes/cuota_institucion": {
+            "get": {
+                "description": "Obtiene el monto adjudicado y el porcentaje de contratos adjudicados a mipymes y a mipymes de mujeres por institucion",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procesos"
+                ],
+                "summary": "Obtiene el calculo de cumplimiento de la cuota mipymes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Código de unidad de compra, la API por defecto trae el monto adjudicado y el porcentaje de contratos adjudicados a mipymes y a mipymes de mujeres de todas las unidades de compra",
+                        "name": "unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año, la API por defecto trae el monto adjudicado y el porcentaje de contratos adjudicados a mipymes y a mipymes de mujeres del año actual",
+                        "name": "año",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/proveedores": {
+            "get": {
+                "description": "Obtiene la información de todos los proveedores registrados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Registro de proveedores",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Página a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae todas los primeros 100 proveedores en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Rpe del proveedor, la API por defecto trae todos los proveedores en caso de no delimitarse",
+                        "name": "rpe",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Número de documento del proveedor, la API por defecto trae todos los proveedores en caso de no delimitarse",
+                        "name": "numero_documento",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Estado del proveedor (activo, suspendido, cancelado etc.), la API por defecto trae todos los proveedores en caso de no delimitarse",
+                        "name": "estado",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pais del proveedor, la API por defecto trae todas las ubicaciones en caso de no delimitarse",
+                        "name": "pais",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Region del proveedor, la API por defecto trae todas las ubicaciones en caso de no delimitarse",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Provincia del proveedor, la API por defecto trae todas las ubicaciones en caso de no delimitarse",
+                        "name": "provincia",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Municipio del proveedor, la API por defecto trae todas las ubicaciones en caso de no delimitarse",
+                        "name": "municipio",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/proveedores/estadisticas-mujeres": {
+            "get": {
+                "description": "Obtiene información estadística sobre la participación de mipymes y mujeres en los procesos de contratación pública",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Transparencia de mipymes y mujerees",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/proveedores/rubro": {
+            "get": {
+                "description": "Obtiene el rubro de un proveedor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Rubro de proveedor",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Rpe del proveedor, la API por defecto trae todos los proveedores en caso de no delimitarse",
+                        "name": "rpe",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Rubro del proveedor (El mismo es un CODIGO_UNSPSC de tipo FAMILIA), la API por defecto trae todos los proveedores en caso de no delimitarse",
+                        "name": "rubro",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Pagina a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae todas los primeros 100 proveedores en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tablas/contratos": {
+            "get": {
+                "description": "Obtiene el archivo de las tablas de contratos en formato xlsx o csv, dependiendo del tipo seleccionado",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tablas"
+                ],
+                "summary": "Obtener el archivo de las tablas de contratos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tipo de archivo, puede ser xlsx (excel) o csv (texto). Default: xlsx (excel)",
+                        "name": "Type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "stream"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tablas/contratos/articulos": {
+            "get": {
+                "description": "Obtiene el archivo de las tablas de artícios adjudicados en formato xlsx o csv, dependiendo del tipo seleccionado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tablas"
+                ],
+                "summary": "Obtiene el archivo de las tablas de artícios adjudicados",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Semestre del proceso, este delimitador es obligatorio debido a la cantidad de registros",
+                        "name": "semestre",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año del proceso, este delimitador es obligatorio debido a la cantidad de registros",
+                        "name": "año",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tipo de archivo, puede ser xlsx (excel) o csv (texto). Default: xlsx (excel)",
+                        "name": "Type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "stream"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tablas/procesos": {
+            "get": {
+                "description": "Obtiene el archivo de las tablas de procesos en formato xlsx o csv, dependiendo del tipo seleccionado",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tablas"
+                ],
+                "summary": "Obtener el archivo de las tablas de procesos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tipo de archivo, puede ser xlsx (excel) o csv (texto). Default: Excel",
+                        "name": "Type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "stream"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tablas/procesos/articulos": {
+            "get": {
+                "description": "Obtiene el archivo de las tablas de artícios procesos en formato xlsx o csv, dependiendo del tipo seleccionado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tablas"
+                ],
+                "summary": "Obtiene el archivo de las tablas de artícios procesos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Semestre del proceso, este delimitador es obligatorio debido a la cantidad de registros",
+                        "name": "semestre",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Año del proceso, este delimitador es obligatorio debido a la cantidad de registros",
+                        "name": "año",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tipo de archivo, puede ser xlsx (excel) o csv (texto). Default: xlsx (excel)",
+                        "name": "Type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "stream"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tablas/proveedores": {
+            "get": {
+                "description": "Obtiene el archivo de las tablas de proveedores en formato xlsx o csv, dependiendo del tipo seleccionado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tablas"
+                ],
+                "summary": "Obtiene el archivo de las tablas de proveedores",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "description": "Inhabilitados, si se selecciona, se obtendran las tablas de los proveedores inhabilitados",
+                        "name": "inhabilitados",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tipo de archivo, puede ser xlsx (excel) o csv (texto)",
+                        "name": "Type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "stream"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/unidades_compra": {
+            "get": {
+                "description": "Obtiene todas las unidades de compra registradas en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Unidades de Compra"
+                ],
+                "summary": "Obtiene el registro de unidades de compra",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Código de la unidad de compra, la API por defecto trae todas las unidades de compra en caso de no delimitarse",
+                        "name": "codigo_unidad_compra",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limite de registros, la API por defecto trae los primeros 100 registros en caso de no delimitarse",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Pagina a consultar, la API por defecto trae la primera pagina en caso de no delimitarse",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Address": {
+            "type": "object",
+            "properties": {
+                "countryName": {
+                    "type": "string"
+                },
+                "locality": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "streetAddress": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Amount": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "currency": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ApiResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "hasError": {
+                    "type": "boolean"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pages": {
+                    "type": "integer"
+                },
+                "payload": {
+                    "$ref": "#/definitions/models.Payload"
+                },
+                "totalResults": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.AwardPeriod": {
+            "type": "object",
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Awards": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Items"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "suppliers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Tenderers"
+                    }
+                }
+            }
+        },
+        "models.Bids": {
+            "type": "object",
+            "properties": {
+                "details": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.BidsDetails"
+                    }
+                }
+            }
+        },
+        "models.BidsDetails": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenderers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Tenderers"
+                    }
+                },
+                "value": {
+                    "$ref": "#/definitions/models.Value"
+                }
+            }
+        },
+        "models.Budget": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "$ref": "#/definitions/models.Amount"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Classification": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "scheme": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ContactPoint": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "faxNumber": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "telephone": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ContractPeriod": {
+            "type": "object",
+            "properties": {
+                "durationInDays": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Contracts": {
+            "type": "object",
+            "properties": {
+                "awardID": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "period": {
+                    "$ref": "#/definitions/models.Period"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "$ref": "#/definitions/models.Value"
+                }
+            }
+        },
+        "models.DocumentStandard": {
+            "type": "object",
+            "properties": {
+                "documentType": {
+                    "type": "string"
+                },
+                "format": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Documents": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "format": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "publishedDate": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Identifier": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "legalName": {
+                    "type": "string"
+                },
+                "scheme": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Items": {
+            "type": "object",
+            "properties": {
+                "classification": {
+                    "$ref": "#/definitions/models.Classification"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.OcdsResponse": {
+            "type": "object",
+            "properties": {
+                "extensions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "license": {
+                    "type": "string"
+                },
+                "publicationPolicy": {
+                    "type": "string"
+                },
+                "publishedDate": {
+                    "type": "string"
+                },
+                "publisher": {
+                    "$ref": "#/definitions/models.Publisher"
+                },
+                "releases": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Release"
+                    }
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Parties": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/models.Address"
+                },
+                "contactPoint": {
+                    "$ref": "#/definitions/models.ContactPoint"
+                },
+                "details": {
+                    "$ref": "#/definitions/models.PartiesDetails"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "identifier": {
+                    "$ref": "#/definitions/models.Identifier"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.PartiesDetails": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "type": "string"
+                },
+                "scale": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Payload": {
+            "type": "object",
+            "properties": {
+                "content": {},
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Period": {
+            "type": "object",
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Planning": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "$ref": "#/definitions/models.Budget"
+                },
+                "documents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Documents"
+                    }
+                }
+            }
+        },
+        "models.ProcuringEntity": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Publisher": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Release": {
+            "type": "object",
+            "properties": {
+                "awards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Awards"
+                    }
+                },
+                "bids": {
+                    "$ref": "#/definitions/models.Bids"
+                },
+                "contracts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Contracts"
+                    }
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "initiationType": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "ocid": {
+                    "type": "string"
+                },
+                "parties": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Parties"
+                    }
+                },
+                "planning": {
+                    "$ref": "#/definitions/models.Planning"
+                },
+                "tag": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tender": {
+                    "$ref": "#/definitions/models.Tender"
+                }
+            }
+        },
+        "models.Sustainability": {
+            "type": "object",
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "strategies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.Tender": {
+            "type": "object",
+            "properties": {
+                "awardPeriod": {
+                    "$ref": "#/definitions/models.AwardPeriod"
+                },
+                "contractPeriod": {
+                    "$ref": "#/definitions/models.ContractPeriod"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "documents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DocumentStandard"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Items"
+                    }
+                },
+                "mainProcurementCategory": {
+                    "type": "string"
+                },
+                "numberOfTenderers": {
+                    "type": "integer"
+                },
+                "procurementMethod": {
+                    "type": "string"
+                },
+                "procurementMethodDetails": {
+                    "type": "string"
+                },
+                "procuringEntity": {
+                    "$ref": "#/definitions/models.ProcuringEntity"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sustainability": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Sustainability"
+                    }
+                },
+                "tenderPeriod": {
+                    "$ref": "#/definitions/models.TenderPeriod"
+                },
+                "tenderers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Tenderers"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "$ref": "#/definitions/models.Value"
+                }
+            }
+        },
+        "models.TenderPeriod": {
+            "type": "object",
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Tenderers": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Unit": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "$ref": "#/definitions/models.Value"
+                }
+            }
+        },
+        "models.Value": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "currency": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

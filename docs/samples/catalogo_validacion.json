@@ -1,0 +1,460 @@
+{
+ "26110000": {
+  "desc": "Baterías  y  generadores  y  transmisión  de  energía  cinética",
+  "seg": "Maquinaria  y  accesorios  para  generación  y  distribución  de  energía",
+  "n": 94,
+  "clases": {
+   "26111500": "Transmisión de energía cinética",
+   "26111600": "Generadores de potencia",
+   "26111700": "Baterías, pilas y accesorios",
+   "26111800": "Componentes de la transmisión",
+   "26111900": "Embragues",
+   "26112000": "Piezas y accesorios de embragues",
+   "26112100": "Sistemas de frenado industriales"
+  }
+ },
+ "39110000": {
+  "desc": "Iluminación, artefactos y accesorios",
+  "seg": "Componentes, accesorios y suministros de sistemas eléctricos e iluminación",
+  "n": 45,
+  "clases": {
+   "39111500": "Iluminación de interiores y artefactos",
+   "39111600": "Iluminación exterior y artefactos",
+   "39111700": "Alumbrado de emergencia",
+   "39111800": "Accesorios de iluminación",
+   "39111900": "Señalización e iluminación de emplazamientos peligrosos",
+   "39112000": "Proyectores móviles"
+  }
+ },
+ "39120000": {
+  "desc": "Equipos, suministros y componentes eléctricos",
+  "seg": "Componentes, accesorios y suministros de sistemas eléctricos e iluminación",
+  "n": 172,
+  "clases": {
+   "39121000": "Equipamiento para distribución y conversión de alimentación",
+   "39121100": "Centros de control y distribución y accesorios",
+   "39121200": "Cerramientos de barras colectoras y componentes de gestión de hilos",
+   "39121300": "Cuadros, registros y menaje para electricidad",
+   "39121400": "Lengüetas de conexión, conectadores y terminales",
+   "39121500": "Conmutadores, controles y relés y accesorios",
+   "39121600": "Dispositivos y accesorios para la protección de circuitos",
+   "39121700": "Ferretería eléctrica y suministros"
+  }
+ },
+ "40100000": {
+  "desc": "Calefacción, ventilación y circulación del aire",
+  "seg": "Componentes y equipos para distribución y sistemas de acondicionamiento",
+  "n": 59,
+  "clases": {
+   "40101500": "Ventilación",
+   "40101600": "Circulación del aire y piezas y accesorios",
+   "40101700": "Enfriamiento",
+   "40101800": "Equipo de calefacción y piezas y accesorios",
+   "40101900": "Control de humedad",
+   "40102000": "Calderas"
+  }
+ },
+ "43000000": {
+  "desc": "Difusión de tecnologías de información y telecomunicaciones",
+  "n": 457,
+  "familias": {
+   "43190000": {
+    "desc": "Dispositivos de comunicaciones y accesorios",
+    "clases": {
+     "43191500": "Dispositivos de comunicación personal",
+     "43191600": "Partes o accesorios de dispositivos de comunicación personal"
+    }
+   },
+   "43200000": {
+    "desc": "Componentes para tecnología de la información, difusión o telecomunicaciones",
+    "clases": {
+     "43201400": "Tarjetas del sistema",
+     "43201500": "Módulos o interfaces de procesadores de tablero (board) del sistema",
+     "43201600": "Componentes del chasis",
+     "43201800": "Dispositivos de almacenamiento",
+     "43201900": "Accesorios de dispositivos de almacenamiento",
+     "43202000": "Dispositivos de almacenamiento extraíbles",
+     "43202100": "Accesorios de dispositivos de almacenamiento extraíbles",
+     "43202200": "Subconjuntos para dispositivos electrónicos"
+    }
+   },
+   "43210000": {
+    "desc": "Equipo informático y accesorios",
+    "clases": {
+     "43211500": "Computadores",
+     "43211600": "Accesorios de computador",
+     "43211700": "Dispositivos informáticos de entrada de datos",
+     "43211800": "Accesorios de dispositivos de entrada de datos de computador",
+     "43211900": "Monitores y pantallas de computador",
+     "43212000": "Accesorios de pantallas de computador",
+     "43212100": "Impresoras de computador"
+    }
+   },
+   "43220000": {
+    "desc": "Equipos o plataformas y accesorios de redes multimedia o de voz y datos",
+    "clases": {
+     "43221500": "Sistemas de gestión de llamadas o accesorios",
+     "43221600": "Componentes y equipo de acceso de abonado de línea digital (dsl) y accesorios",
+     "43221700": "Equipo fijo de red y componentes",
+     "43221800": "Dispositivos de red óptica",
+     "43222500": "Equipo de seguridad de red",
+     "43222600": "Equipo de servicio de red",
+     "43222700": "Equipo telegráfico",
+     "43222800": "Equipo de telefonía",
+     "43222900": "Accesorios de equipo de telefonía",
+     "43223000": "Equipo de teletipo",
+     "43223100": "Componentes y equipo de infraestructura de redes móviles y digitales",
+     "43223200": "Plataformas de mensajería por móvil"
+    }
+   },
+   "43230000": {
+    "desc": "Software",
+    "clases": {
+     "43231500": "Software funcional específico de la empresa",
+     "43231600": "Software de planificación de recursos empresariales (erp) y contabilidad financiera",
+     "43232000": "Software de entretenimiento o juegos de computador",
+     "43232100": "Software de edición y creación de contenidos",
+     "43232200": "Software de gestión de contenidos",
+     "43232300": "Software de consultas y gestión de datos",
+     "43232400": "Programas de desarrollo",
+     "43232500": "Software educativo o de referencia",
+     "43232600": "Software específico para la industria",
+     "43232700": "Software de aplicaciones de red",
+     "43232800": "Software de administración de redes",
+     "43232900": "Software para trabajo en redes",
+     "43233000": "Software de entorno operativo",
+     "43233200": "Software de seguridad y protección",
+     "43233400": "Software de controladores de dispositivos y utilidades",
+     "43233500": "Software de intercambio de información"
+    }
+   }
+  }
+ },
+ "45110000": {
+  "desc": "Equipos de audio y video para presentación y composición",
+  "seg": "Equipos y suministros para impresión, fotografia y audiovisuales",
+  "n": 45,
+  "clases": {
+   "45111500": "Atriles, sistemas de sonido y accesorios",
+   "45111600": "Proyectores y suministros",
+   "45111700": "Equipo de composición y presentación de sonido, hardware y controladores",
+   "45111800": "Equipo de presentación de vídeo y de mezcla de vídeo y sonido, hardware y controladores",
+   "45111900": "Equipos, hardware y controladores para sistemas de teleconferencia y videoconferencia",
+   "45112000": "Equipo y suministros de microfilm"
+  }
+ },
+ "46000000": {
+  "desc": "Equipos y suministros de defensa, orden publico, proteccion, vigilancia y seguridad",
+  "n": 192,
+  "familias": {
+   "46100000": {
+    "desc": "Armas ligeras y munición",
+    "clases": {
+     "46101500": "Armas de fuego",
+     "46101600": "Munición",
+     "46101700": "Sistemas de manipulación de munición",
+     "46101800": "Accesorios de armas y municiones"
+    }
+   },
+   "46150000": {
+    "desc": "Protección del orden público",
+    "clases": {
+     "46151500": "Equipo de control de masas",
+     "46151600": "Equipo de seguridad y control",
+     "46151700": "Equipo forense y accesorios y suministros"
+    }
+   },
+   "46160000": {
+    "desc": "Seguridad y control público",
+    "clases": {
+     "46161500": "Control de tráfico",
+     "46161600": "Seguridad del agua"
+    }
+   },
+   "46170000": {
+    "desc": "Seguridad, vigilancia y detección",
+    "clases": {
+     "46171500": "Cerraduras, elementos de seguridad y accesorios",
+     "46171600": "Equipo de vigilancia y detección"
+    }
+   },
+   "46180000": {
+    "desc": "Seguridad y protección personal",
+    "clases": {
+     "46181500": "Ropa de seguridad",
+     "46181600": "Calzado de protección",
+     "46181700": "Protectores de cara y cabeza",
+     "46181800": "Protección y accesorios para la visión",
+     "46181900": "Protectores auditivos",
+     "46182000": "Protección de la respiración",
+     "46182100": "Equipo y suministros antiestáticos",
+     "46182200": "Equipo de apoyo ergonómico",
+     "46182300": "Protección anti caída y equipo de rescate",
+     "46182400": "Equipo de limpieza de seguridad y materiales de descontaminación",
+     "46182500": "Armas o dispositivos de seguridad personal"
+    }
+   },
+   "46190000": {
+    "desc": "Protección contra incendios",
+    "clases": {
+     "46191500": "Prevención contra incendios",
+     "46191600": "Equipo contra incendios"
+    }
+   }
+  }
+ },
+ "70000000": {
+  "desc": "Servicios de contratacion agrícola, pesquera, forestal y de fauna",
+  "n": 236,
+  "familias": {
+   "70100000": {
+    "desc": "Pesquerías y acuicultura",
+    "clases": {
+     "70101500": "Explotaciones pesqueras",
+     "70101600": "Vigilancia pesquera",
+     "70101700": "Industria y tecnología pesquera",
+     "70101800": "Recursos pesqueros",
+     "70101900": "Acuicultura"
+    }
+   },
+   "70110000": {
+    "desc": "Horticultura",
+    "clases": {
+     "70111500": "Plantas y árboles ornamentales",
+     "70111600": "Plantas de flor",
+     "70111700": "Parques, jardines y huertos"
+    }
+   },
+   "70120000": {
+    "desc": "Servicios de animales vivos",
+    "clases": {
+     "70121500": "Industria lechera",
+     "70121600": "Industria ganadera",
+     "70121700": "Gestión ganadera",
+     "70121800": "Industria de animales domésticos",
+     "70121900": "Servicios de pastos y dehesas",
+     "70122000": "Salud animal"
+    }
+   },
+   "70130000": {
+    "desc": "Preparación, gestión y protección del terreno y del suelo",
+    "clases": {
+     "70131500": "Protección del terreno y del suelo",
+     "70131600": "Preparación del terreno y del suelo",
+     "70131700": "Gestión del terreno y del suelo"
+    }
+   },
+   "70140000": {
+    "desc": "Producción, gestión y protección de cultivos",
+    "clases": {
+     "70141500": "Producción de cultivos",
+     "70141600": "Protección de cultivos",
+     "70141700": "Gestión de cultivos",
+     "70141800": "Plantación y cultivo de cultivos",
+     "70141900": "Cosecha de cultivos",
+     "70142000": "Elaboración de cultivos posterior a la cosecha"
+    }
+   },
+   "70150000": {
+    "desc": "Silvicultura",
+    "clases": {
+     "70151500": "Gestión de cultivos forestales",
+     "70151600": "Industria forestal",
+     "70151700": "Cosecha forestal",
+     "70151800": "Servicios de conservación forestal",
+     "70151900": "Recursos forestales"
+    }
+   },
+   "70160000": {
+    "desc": "Fauna y flora silvestres",
+    "clases": {
+     "70161500": "Fauna",
+     "70161600": "Flora",
+     "70161700": "Ecosistemas"
+    }
+   },
+   "70170000": {
+    "desc": "Desarrollo y vigilancia de recursos hidráulicos",
+    "clases": {
+     "70171500": "Desarrollo",
+     "70171600": "Vigilancia",
+     "70171700": "Riego",
+     "70171800": "Servicios de drenaje"
+    }
+   }
+  }
+ },
+ "72000000": {
+  "desc": "Servicios de edificación, construcción de instalaciones y mantenimiento",
+  "n": 102,
+  "familias": {
+   "72100000": {
+    "desc": "Servicios de mantenimiento y reparaciones de construcciones e instalaciones",
+    "clases": {
+     "72101500": "Servicios de apoyo para la construcción",
+     "72101600": "Revestimientos de techos, paredes o metalistería",
+     "72101700": "Trabajo en hormigón",
+     "72101800": "Limpieza exterior",
+     "72101900": "Acabados de interiores",
+     "72102000": "Revestimiento, calafateo; a prueba de intemperie, ignífugo e impermeable",
+     "72102100": "Control de plagas",
+     "72102200": "Servicios eléctricos",
+     "72102300": "Fontanería, calefacción y aire acondicionado",
+     "72102400": "Pintura y colocación de papel pintado",
+     "72102500": "Albañilería, mampostería y colocación de azulejos",
+     "72102600": "Carpintería",
+     "72102700": "Servicios de revestimiento de suelos",
+     "72102800": "Servicios de modernización",
+     "72102900": "Servicios de mantenimiento y reparación de instalaciones",
+     "72103000": "Servicios de preparación de solares",
+     "72103300": "Servicios de mantenimiento y reparación de infraestructura"
+    }
+   },
+   "72130000": {
+    "desc": "Construcción general de edificios",
+    "clases": {
+     "72131500": "Construcción residencial",
+     "72131600": "Construcción comercial o industrial",
+     "72131700": "Construcción de infraestructura"
+    }
+   },
+   "72140000": {
+    "desc": "Servicios de construcción pesada",
+    "clases": {
+     "72141200": "Servicios de construcción marina",
+     "72141600": "Servicios de construcción de sistemas de tránsito masivo"
+    }
+   }
+  }
+ },
+ "73150000": {
+  "desc": "Servicios de apoyo a la fabricación",
+  "seg": "Servicios de producción industrial y manufactura",
+  "n": 30,
+  "clases": {
+   "73151500": "Servicios de ensamble",
+   "73151600": "Servicios de empaque",
+   "73151700": "Tratamiento de materiales",
+   "73151800": "Servicios de conversión",
+   "73151900": "Servicios a la industria de impresión",
+   "73152000": "Servicios de llenado",
+   "73152100": "Servicios de mantenimiento y reparación de equipo de manufactura"
+  }
+ },
+ "76000000": {
+  "desc": "Servicios de limpieza, descontaminación y tratamiento de residuos",
+  "n": 37,
+  "familias": {
+   "76100000": {
+    "desc": "Servicios de descontaminación",
+    "clases": {
+     "76101500": "Desinfección",
+     "76101600": "Descontaminación de materiales peligrosos"
+    }
+   },
+   "76110000": {
+    "desc": "Servicios de aseo y limpieza",
+    "clases": {
+     "76111500": "Servicios de limpieza y mantenimiento de edificios generales y de oficinas",
+     "76111600": "Servicios de limpieza de componentes de edificios",
+     "76111700": "Limpieza de terrenos para edificar",
+     "76111800": "Limpieza de vehículos de transporte"
+    }
+   },
+   "76120000": {
+    "desc": "Eliminación y tratamiento de desechos",
+    "clases": {
+     "76121500": "Recolección y disposición de basuras",
+     "76121600": "Disposición de desechos no peligrosos",
+     "76121700": "Tratamiento de desechos líquidos",
+     "76121800": "Tratamiento de desechos",
+     "76121900": "Disposición de desechos peligrosos"
+    }
+   },
+   "76130000": {
+    "desc": "Limpieza de residuos tóxicos y peligrosos",
+    "clases": {
+     "76131500": "Tratamiento de basura nuclear",
+     "76131600": "Limpieza de derrames tóxicos",
+     "76131700": "Limpieza de derrames de petróleo"
+    }
+   }
+  }
+ },
+ "81110000": {
+  "desc": "Servicios informáticos",
+  "seg": "Servicios basados en ingeniería, investigación y tecnología",
+  "n": 66,
+  "clases": {
+   "81111500": "Ingeniería de software o hardware",
+   "81111600": "Programadores de computador",
+   "81111700": "Sistemas de manejo de información mis",
+   "81111800": "Servicios de sistemas y administración de componentes de sistemas",
+   "81111900": "Sistemas de recuperación de información",
+   "81112000": "Servicios de datos",
+   "81112100": "Servicios de internet",
+   "81112200": "Mantenimiento y soporte de software",
+   "81112500": "Servicio de alquiler o arrendamiento de licencias de software informático"
+  }
+ },
+ "81160000": {
+  "n": 0,
+  "clases": {}
+ },
+ "83110000": {
+  "desc": "Servicios de medios de telecomunicaciones",
+  "seg": "Servicios públicos y servicios relacionados con el sector público",
+  "n": 52,
+  "clases": {
+   "83111500": "Comunicaciones telefónicas locales y de larga distancia",
+   "83111600": "Servicios de comunicaciones móviles",
+   "83111700": "Servicios de facsímil y telégrafos",
+   "83111800": "Servicios de televisión",
+   "83111900": "Servicios de radio",
+   "83112200": "Servicios mejorados de telecomunicaciones",
+   "83112300": "Servicios de telecomunicaciones por fibra",
+   "83112400": "Servicios de telecomunicaciones de marcado conmutado y circuito de línea dedicada alquilada",
+   "83112500": "Capacidades de eje troncal",
+   "83112600": "Acceso de clientes"
+  }
+ },
+ "92000000": {
+  "desc": "Servicios de defensa nacional, orden publico, seguridad y vigilancia",
+  "n": 91,
+  "familias": {
+   "92100000": {
+    "desc": "Orden público y seguridad",
+    "clases": {
+     "92101500": "Servicios de policía",
+     "92101600": "Servicios de bomberos",
+     "92101700": "Sistemas de cárceles y prisiones",
+     "92101800": "Sistemas judiciales",
+     "92101900": "Servicios de rescate"
+    }
+   },
+   "92110000": {
+    "desc": "Servicios militares o defensa nacional",
+    "clases": {
+     "92111500": "Mantenimiento de la paz y seguridad internacionales",
+     "92111600": "Desarmamiento",
+     "92111700": "Ciencia e investigación militar",
+     "92111800": "Personal y disciplina militar",
+     "92111900": "Policía militar",
+     "92112000": "Zonas militares",
+     "92112100": "Guerra nuclear",
+     "92112200": "Tácticas militares",
+     "92112300": "Bases militares",
+     "92112400": "Conflictos e incidentes armados"
+    }
+   },
+   "92120000": {
+    "desc": "Servicios de seguridad y protección personal",
+    "clases": {
+     "92121500": "Servicios de guardias",
+     "92121600": "Servicios de detectives",
+     "92121700": "Servicios de sistemas de seguridad"
+    }
+   }
+  }
+ }
+}

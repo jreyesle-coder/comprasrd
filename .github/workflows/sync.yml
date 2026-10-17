@@ -1,0 +1,42 @@
+name: Sincronizar DGCP
+
+on:
+  schedule:
+    # 30 min después de cada corte del data warehouse de la DGCP (00:00, 07:00, 14:00, 21:00 hora RD = UTC-4)
+    - cron: "30 4,11,18,1 * * *"
+    # Domingo 04:00 hora RD: refresco de 30 días para actualizar estados de procesos ya guardados
+    - cron: "0 8 * * 0"
+  workflow_dispatch:
+    inputs:
+      dias:
+        description: "Forzar ventana de N días hacia atrás (vacío = automático)"
+        required: false
+
+concurrency:
+  group: sync-dgcp
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Sincronizar
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DGCP_API_BASE: https://datosabiertos.dgcp.gob.do/api-dgcp/v1
+        run: |
+          if [ -n "${{ github.event.inputs.dias }}" ]; then
+            npm run sync -- --dias "${{ github.event.inputs.dias }}"
+          elif [ "${{ github.event.schedule }}" = "0 8 * * 0" ]; then
+            npm run sync -- --dias 30
+          else
+            npm run sync
+          fi

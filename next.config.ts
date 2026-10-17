@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // exceljs se usa solo en la ruta de exportación (servidor)
+  serverExternalPackages: ["exceljs"],
   turbopack: {
     rules: {
       "*.css": {

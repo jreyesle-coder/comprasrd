@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: #f6f7f9;
+  color: #171a21;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility campo {
+  @apply w-full rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20;
+}
+@utility etiqueta {
+  @apply mb-1 block text-xs font-medium text-slate-600;
+}
+@utility boton {
+  @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors;
+}
+@utility boton-primario {
+  @apply boton bg-blue-700 text-white hover:bg-blue-800;
+}
+@utility boton-secundario {
+  @apply boton border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
 }
