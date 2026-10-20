@@ -9,7 +9,10 @@ export async function procesosDelResumen(db: SupabaseClient, empresaId: string, 
   const ahora = new Date().toISOString();
   const en7 = inicioDiaRD(sumarDias(fechaRD(), 8)).toISOString();
   const [nuevos, porCerrar] = await Promise.all([
+    // nuevos = entraron al radar desde el último envío, publicados hace poco y todavía abiertos
     db.from("procesos_lista").select(COLS).eq("empresa_id", empresaId).gte("detectado_en", desde)
+      .gte("fecha_publicacion", new Date(Date.parse(desde) - 3 * 86_400_000).toISOString())
+      .or(`fecha_cierre_ofertas.gt.${ahora},fecha_cierre_ofertas.is.null`)
       .neq("estado_interno", "descartado").order("fecha_publicacion", { ascending: false }).limit(200),
     db.from("procesos_lista").select(COLS).eq("empresa_id", empresaId).gt("fecha_cierre_ofertas", ahora).lt("fecha_cierre_ofertas", en7)
       .neq("estado_interno", "descartado").order("fecha_cierre_ofertas").limit(200),
