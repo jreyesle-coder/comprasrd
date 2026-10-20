@@ -168,7 +168,7 @@ async function main() {
     const insts = new Map<number, string>();
     for (const p of procesos.values()) if (p.codigo_unidad_compra != null) insts.set(p.codigo_unidad_compra, p.unidad_compra);
     await almacen.guardarInstituciones([...insts].map(([codigo_unidad_compra, nombre]) => ({ codigo_unidad_compra, nombre })));
-    resumen.coincidencias = await almacen.rpc<number>("clasificar_todas", { p_desde: inicioDiaRD(desde).toISOString() });
+    resumen.coincidencias = await clasificarEnTramos(almacen, desdeMs);
     log(`Guardados ${procesos.size} procesos (${resumen.procesos_nuevos} nuevos) · coincidencias por empresa: ${resumen.coincidencias}`);
 
     // 5. Contratos y ofertas
@@ -237,6 +237,33 @@ async function main() {
     );
   }
   if (!resumen.exito) process.exit(1);
+}
+
+/** Clasifica para cada empresa en tramos de 15 días (consultas cortas). */
+async function clasificarEnTramos(almacen: Almacen, desdeMs: number) {
+  const { data: empresas, error } = await almacen.db.from("empresas").select("id, nombre").neq("estado", "suspendida");
+  if (error) throw new Error(error.message);
+  const ids: number[] = [];
+  const TRAMO = 15 * 86_400_000;
+  let total = 0;
+  for (const e of empresas ?? []) {
+    let n = 0;
+    for (let ini = desdeMs; ini < Date.now() + 86_400_000; ini += TRAMO) {
+      const { data, error: err } = await almacen.db
+        .from("procesos").select("id")
+        .gte("fecha_publicacion", new Date(ini).toISOString()).lt("fecha_publicacion", new Date(ini + TRAMO).toISOString())
+        .limit(20000);
+      if (err) throw new Error(err.message);
+      ids.length = 0;
+      for (const p of data ?? []) ids.push(p.id);
+      for (let i = 0; i < ids.length; i += 3000) {
+        n += await almacen.rpc<number>("clasificar_procesos", { p_empresa: e.id, p_desde: new Date(ini).toISOString(), p_proceso_ids: ids.slice(i, i + 3000) });
+      }
+    }
+    log(`  ${e.nombre}: ${n} coincidencias`);
+    total += n;
+  }
+  return total;
 }
 
 function dedupe<T extends Record<string, unknown>>(filas: T[], clave: string): T[] {
