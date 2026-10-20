@@ -1,90 +1,92 @@
 # Radar de Compras Públicas RD
 
-Detecta y lista automáticamente los procesos de compras del Estado dominicano en **Tecnología** y **Servicios generales**, usando solo la **API oficial de Datos Abiertos de la DGCP** (sin scraping del portal).
+Plataforma **multiempresa** (SaaS) que detecta los procesos de compras del Estado dominicano en los rubros de cada cliente, usando solo la **API oficial de Datos Abiertos de la DGCP** (sin scraping del portal).
 
-- **Sincronizador** (`worker/`): corre 4 veces al día en GitHub Actions, lee la API respetando el límite (≤ 1 petición/segundo, nunca en paralelo), clasifica y guarda en Supabase solo los procesos relevantes.
-- **App web** (Next.js en Vercel): lee **solo** de Supabase. Contadores, filtros, detalle, seguimiento interno y exportación a Excel. Acceso con enlace mágico al correo.
+- **Sincronizador** (`worker/`, GitHub Actions 4 veces al día): lee la API respetando el límite (≤ 1 petición/segundo, nunca en paralelo), guarda **todos** los procesos, artículos, contratos y ofertas, y la base de datos clasifica cada proceso para cada empresa según sus rubros.
+- **App web** (Next.js en Vercel): cada empresa ve su radar con su logo y colores, su pipeline comercial, la competencia en sus rubros y su configuración. Tú tienes un panel de administración para dar de alta clientes y registrar pagos.
+- **Resumen diario por correo** (GitHub Actions, 8:00 a. m.): lo nuevo y lo que cierra esta semana, para cada empresa.
 
-Documentación técnica del Paso 0 (campos reales de la API y por qué se eligió la estrategia de ingesta): [`docs/campos-api.md`](docs/campos-api.md).
+Detalles de la API y de la estrategia de ingesta: [`docs/campos-api.md`](docs/campos-api.md).
 
----
+## Pantallas
 
-## 1. Probarlo en tu computadora sin base de datos (modo demo)
+| Ruta | Quién | Qué hace |
+|---|---|---|
+| `/` | Público | Página de venta, precio, preguntas y formulario de demostración |
+| `/login?e=<slug>` | Público | Entrada con el logo de la empresa |
+| `/radar` | Usuarios | Procesos en sus rubros, contadores, filtros, Excel |
+| `/radar/<id>` | Usuarios | Detalle, artículos, documentos, adjudicación, ofertas, seguimiento |
+| `/pipeline` | Usuarios | Interesa → En preparación → Ofertado → Ganado / Perdido |
+| `/competencia` | Usuarios | Quién gana en sus rubros, adjudicaciones vs. monto estimado, historial por institución |
+| `/configuracion` | Admin de la empresa | Marca, equipo (con enlaces de acceso por WhatsApp), alertas, suscripción |
+| `/configuracion/rubros` | Admin de la empresa | Editor de rubros con buscador UNSPSC y vista previa |
+| `/admin` | Superadministrador | Empresas, ingreso mensual, alta de clientes, pagos, "ver como", solicitudes de demo |
 
-1. Instalar dependencias: `npm install`
-2. Traer datos reales de los últimos 30 días a un archivo local (≈2 min, ~110 peticiones):
-   `npm run sync -- --seco`
-3. Abrir la app: `npm run dev` y entrar a <http://localhost:3000>
+## Puesta en marcha (una sola vez)
 
-Sin variables de Supabase la app entra en **modo demo**: lee `worker/salida/radar-seco.json`, no pide login y el seguimiento se guarda solo en memoria.
+1. **Supabase → SQL Editor**: correr [`supabase/migraciones/000_permitir_migraciones.sql`](supabase/migraciones/000_permitir_migraciones.sql). Desde aquí las migraciones se aplican con `npm run migrar`.
+2. `.env.local` con las variables de [`.env.example`](.env.example).
+3. `npm install`
+4. `npm run migrar` — aplica `supabase/migraciones/*.sql` pendientes.
+5. `npm run sembrar -- --superadmin tu@correo.com` — rubros de la empresa piloto y tu usuario como superadministrador.
+6. `npm run catalogo` — carga el catálogo UNSPSC (17 peticiones) para el editor de rubros.
+7. `npm run sync -- --dias 90` — primera carga de 90 días (~10 min).
 
-## 2. Poner Supabase
+### GitHub (Settings → Secrets and variables → Actions)
 
-1. Crear un proyecto en <https://supabase.com/dashboard> (región más cercana: *East US*).
-2. Abrir **SQL Editor → New query**, pegar todo el contenido de [`supabase/schema.sql`](supabase/schema.sql) y pulsar **Run**. (Se puede volver a correr sin perder datos.)
-3. **Authentication → Sign In / Providers → Email**: dejar *Email* activo y **desactivar "Allow new users to sign up"** (el acceso es solo para invitados).
-4. **Authentication → Users → Invite user**: invitar a cada persona que usará el Radar.
-5. **Authentication → URL Configuration**: en *Site URL* poner la dirección de Vercel (ej. `https://radar-compras.vercel.app`) y en *Redirect URLs* agregar `https://radar-compras.vercel.app/auth/callback` y `http://localhost:3000/auth/callback`.
-6. **Project Settings → API**: copiar *Project URL*, *anon public key* y *service_role key*.
-7. Crear `.env.local` copiando [`.env.example`](.env.example) y pegar esos valores.
-8. Primera carga real (últimos 30 días): `npm run sync`
+- Secrets: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` (para los correos).
+- Variables: `URL_APP` (ej. `https://comprasrd-zkbu.vercel.app`), `ALERTAS_REMITENTE` (ej. `Radar de Compras <alertas@tudominio.com>`).
 
-## 3. Programar la sincronización (GitHub Actions)
+### Vercel (Settings → Environment Variables)
 
-1. Subir el proyecto a un repositorio de GitHub.
-2. En el repositorio: **Settings → Secrets and variables → Actions → New repository secret** y crear:
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-3. Listo: [`.github/workflows/sync.yml`](.github/workflows/sync.yml) corre a las **00:30, 07:30, 14:30 y 21:30 hora RD** (30 min después de cada corte de la DGCP), más un refresco de 30 días los domingos a las 04:00.
-4. Para correrlo a mano: pestaña **Actions → Sincronizar DGCP → Run workflow** (opcional: número de días para forzar una ventana más larga).
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` y `SUPABASE_SERVICE_ROLE_KEY` (solo la usa el servidor para invitar usuarios, subir logos y recalcular rubros; nunca llega al navegador).
 
-Cada corrida queda registrada en la tabla `sync_log` (peticiones, máximo por minuto, leídos, relevantes, nuevos, errores). El pie de la app muestra la última.
+### Supabase → Authentication
 
-## 4. Desplegar la app (Vercel)
+- Sign In / Providers → Email: desactivar "Allow new users to sign up" (solo entran usuarios agregados por un administrador).
+- URL Configuration: Site URL = dirección de Vercel; Redirect URLs = `<dirección>/auth/callback`.
+- Recomendado: SMTP propio (Resend) en **Authentication → Emails → SMTP Settings**; el correo incluido en Supabase solo permite unos pocos enlaces por hora. Mientras tanto, usa "Enlace de acceso" en Configuración o en el panel de administración y envíalo por WhatsApp.
 
-1. <https://vercel.com/new> → importar el repositorio.
-2. En **Environment Variables** poner solo:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   (La `service_role` **no** va en Vercel.)
-3. **Deploy**.
+## Dar de alta un cliente
 
-## 5. Ajustar categorías y palabras clave
+1. `/admin` → **Nueva empresa**: nombre, plantillas de rubros, color, logo, días de prueba y correo del administrador del cliente.
+2. En la ficha de la empresa → **Enlace de acceso** junto a su administrador → enviarlo por WhatsApp (vence en 1 hora).
+3. El cliente ajusta sus rubros y destinatarios en **Configuración**.
+4. Cuando pague: ficha de la empresa → **Registrar pago** (extiende la vigencia y la activa). Al vencer, el acceso se pausa solo (los datos se conservan).
 
-Todo está en [`config/categorias.ts`](config/categorias.ts):
+## Cómo se clasifica
 
-- `SUBCATEGORIAS`: cada subcategoría tiene códigos UNSPSC (prefijos: `4323` = familia completa, `811125` = clase) y palabras clave (sin acentos; encuentran plurales).
-- `EXCLUSIONES_UNSPSC`: códigos que nunca cuentan (ej. baterías para vehículos).
-- `EXCLUSIONES_PALABRAS`: frases que descartan un proceso cuando entró **solo** por palabra clave (ej. "vehiculo", "material de limpieza").
+La regla vive en la base de datos (`clasificar_procesos`, en [`002_multiempresa.sql`](supabase/migraciones/002_multiempresa.sql)) y tiene pruebas en [`clasificacion.test.ts`](src/lib/clasificacion.test.ts) sobre un Postgres en memoria:
 
-Después de editar:
+- Un artículo cuenta para la subcategoría con el **prefijo UNSPSC más largo** que coincida (salvo códigos excluidos).
+- Las **palabras clave** se buscan en título y descripción, sin acentos y aceptando plural.
+- Las **palabras de exclusión** descartan un proceso que entró solo por palabra clave.
+- La subcategoría principal es la de mayor monto. El motivo queda guardado (`unspsc:81112501; keyword:licencia`).
 
-1. `npm test` — confirma que el clasificador sigue funcionando.
-2. `npm run reclasificar` — re-clasifica lo ya guardado usando el `raw` (sin llamar a la API). Los que dejan de calzar se borran, salvo que tengan seguimiento.
-3. Si agregaste reglas nuevas y quieres que entren procesos que antes se ignoraron: `npm run sync -- --dias 30`.
-
-Cada proceso guarda `motivo_match` (ej. `unspsc:81112501; keyword:licencia`), visible en el detalle como **"¿Por qué entró?"**.
+Las plantillas iniciales están en [`config/categorias.ts`](config/categorias.ts). Cada empresa luego edita sus rubros desde la app.
 
 ## Comandos
 
 | Comando | Qué hace |
 |---|---|
-| `npm run dev` | App en <http://localhost:3000> |
-| `npm run sync` | Sincroniza con Supabase (ventana automática: última sync − 2 días; primera vez 30 días) |
-| `npm run sync -- --seco` | Igual, pero guarda en `worker/salida/radar-seco.json` (sin base de datos) |
-| `npm run sync -- --dias 7` | Fuerza ventana de 7 días |
-| `npm run sync -- --tope-docs 100` | Máximo de procesos a los que pedir documentos en esta corrida (normal: 400) |
-| `npm run reclasificar` | Re-clasifica lo guardado con la configuración actual |
-| `npm test` | Pruebas del clasificador |
+| `npm run dev` | App en <http://localhost:3000> (necesita `.env.local`) |
+| `npm run sync` | Sincroniza (ventana automática: última sync − 2 días) |
+| `npm run sync -- --dias 30` | Fuerza una ventana de 30 días |
+| `npm run alertas` | Envía los resúmenes del día (sin `RESEND_API_KEY` los simula en `worker/salida/alertas/`) |
+| `npm run alertas -- --empresa piloto --forzar` | Reenvía el resumen de una empresa |
+| `npm run migrar` | Aplica migraciones pendientes |
+| `npm run sembrar -- --superadmin correo` | Empresa piloto + superadmin |
+| `npm run catalogo` | Recarga el catálogo UNSPSC |
+| `npm test` | Pruebas (clasificación por empresa en PGlite) |
 | `npm run build` | Compila la app |
 
 ## Reglas de uso de la API (DGCP)
 
 - Máximo 60 peticiones/minuto por IP → el cliente (`worker/dgcp.ts`) espera ≥ 1.1 s entre peticiones, en cola estrictamente secuencial, con reintentos y espera exponencial ante 429/5xx.
-- Una carga de 30 días usa ~110 peticiones (máximo medido: 55/min); una corrida normal ~50.
+- Una corrida normal usa ~60 peticiones (+ documentos); máximo medido: 55/min.
 - El navegador nunca llama a `datosabiertos.dgcp.gob.do`.
+- Antes de vender, revisar los [términos de uso de la API](https://datosabiertos.dgcp.gob.do/content/Terminos%20y%20condiciones%20API-DGCP.pdf) sobre uso comercial y atribución.
 
-## Limitaciones conocidas
+## Espacio y retención
 
-- La API no permite pedir procesos por "fecha de actualización": los cambios de estado de procesos publicados hace más de 2 días se actualizan en el refresco semanal (domingo 04:00 hora RD, ventana de 30 días) o forzando `--dias`.
-- Los documentos se cargan con tope por corrida; tras la primera carga de 30 días se completan en las siguientes corridas.
+Se guardan todos los procesos, pero los de más de 120 días que no le interesan a ninguna empresa ni tienen seguimiento se borran en cada sincronización (`DIAS_RETENCION`). Pasar Supabase al plan Pro (25 dólares al mes) antes del primer cliente real, por las copias de seguridad diarias.
