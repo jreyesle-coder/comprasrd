@@ -34,7 +34,7 @@ export async function invitar(form: FormData) {
   const s = await requerirAdminEmpresa();
   try {
     const rol = form.get("rol") === "admin" ? "admin" : "usuario";
-    await agregarMiembro(s.empresa.id, String(form.get("email") ?? ""), rol, String(form.get("nombre") ?? ""));
+    await agregarMiembro(s.empresa.id, String(form.get("email") ?? ""), rol, String(form.get("nombre") ?? ""), String(form.get("clave") ?? "") || undefined);
   } catch (e) {
     fallo(e, "#equipo");
   }

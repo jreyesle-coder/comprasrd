@@ -97,7 +97,7 @@ export async function agregarUsuario(form: FormData) {
   await requerirSuperadmin();
   const id = txt(form, "id");
   try {
-    await agregarMiembro(id, txt(form, "email"), form.get("rol") === "admin" ? "admin" : "usuario", txt(form, "nombre"));
+    await agregarMiembro(id, txt(form, "email"), form.get("rol") === "admin" ? "admin" : "usuario", txt(form, "nombre"), txt(form, "clave") || undefined);
   } catch (e) {
     err(`/admin/empresas/${id}`, e);
   }

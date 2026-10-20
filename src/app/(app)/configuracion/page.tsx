@@ -106,9 +106,10 @@ export default async function Configuracion({ searchParams }: PageProps<"/config
                 </li>
               ))}
             </ul>
-            <form action={invitar} className="mt-4 grid gap-2 border-t border-slate-100 pt-4 sm:grid-cols-[1fr_1fr_10rem_auto]">
+            <form action={invitar} className="mt-4 grid gap-2 border-t border-slate-100 pt-4 sm:grid-cols-[1fr_1fr_1fr_9rem_auto]">
               <input name="email" type="email" required placeholder="correo@empresa.com" className="campo" aria-label="Correo" />
               <input name="nombre" placeholder="Nombre (opcional)" className="campo" aria-label="Nombre" />
+              <input name="clave" type="password" minLength={8} placeholder="Contraseña inicial (opcional)" className="campo" aria-label="Contraseña inicial" autoComplete="new-password" />
               <select name="rol" className="campo" aria-label="Rol">
                 <option value="usuario">Usuario</option>
                 <option value="admin">Administrador</option>
@@ -116,7 +117,7 @@ export default async function Configuracion({ searchParams }: PageProps<"/config
               <button className="boton-primario">Agregar</button>
             </form>
             <p className="mt-2 text-xs text-slate-500">
-              Cada persona entra con su correo en la página de acceso. Si el correo tarda, usa &quot;Enlace de acceso&quot; y envíaselo por WhatsApp.
+              Si le pones contraseña inicial, entra con su correo y esa contraseña (luego la cambia en Mi cuenta). Si no, usa &quot;Enlace de acceso&quot; y envíaselo por WhatsApp.
             </p>
           </Tarjeta>
         </div>

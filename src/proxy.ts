@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const URL_SB = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const PUBLICAS = ["/login", "/auth/", "/terminos", "/privacidad", "/api/demo"];
+const PUBLICAS = ["/login", "/auth/", "/terminos", "/privacidad"];
 
 /** Refresca la sesión de Supabase; manda a /login a quien no la tenga (salvo páginas públicas). */
 export async function proxy(request: NextRequest) {

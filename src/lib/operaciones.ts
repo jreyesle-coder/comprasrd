@@ -70,12 +70,13 @@ export async function crearEmpresa(d: {
 }
 
 /** Crea (o reutiliza) el usuario y lo asigna a la empresa. */
-export async function agregarMiembro(empresaId: string, email: string, rol: "admin" | "usuario", nombre?: string) {
+export async function agregarMiembro(empresaId: string, email: string, rol: "admin" | "usuario", nombre?: string, clave?: string) {
   const db = supabaseAdmin();
   const correo = email.trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(correo)) throw new Error("Correo inválido");
+  if (clave && clave.length < 8) throw new Error("La contraseña inicial debe tener al menos 8 caracteres.");
   let userId: string | undefined;
-  const creado = await db.auth.admin.createUser({ email: correo, email_confirm: true });
+  const creado = await db.auth.admin.createUser({ email: correo, email_confirm: true, ...(clave ? { password: clave } : {}) });
   if (creado.data.user) userId = creado.data.user.id;
   else {
     // ya existía: buscarlo
@@ -86,6 +87,10 @@ export async function agregarMiembro(empresaId: string, email: string, rol: "adm
     }
   }
   if (!userId) throw new Error(creado.error?.message ?? "No se pudo crear el usuario");
+  if (clave && !creado.data.user) {
+    const r = await db.auth.admin.updateUserById(userId, { password: clave });
+    if (r.error) throw new Error(r.error.message);
+  }
   const existente = ok(await db.from("miembros").select("empresa_id").eq("user_id", userId).maybeSingle(), "miembro");
   if (existente && existente.empresa_id !== empresaId) throw new Error("Ese correo ya pertenece a otra empresa.");
   ok(await db.from("miembros").upsert({ user_id: userId, empresa_id: empresaId, email: correo, rol, nombre: nombre || null }), "miembro");

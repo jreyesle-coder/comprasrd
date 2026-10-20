@@ -102,7 +102,10 @@ export function Encabezado({ sesion, activo }: { sesion: Sesion; activo?: string
           </span>
         </Link>
         <div className="flex items-center gap-3 text-xs text-slate-500">
-          <span className="hidden md:inline">{sesion.email}</span>
+          <Link href="/cuenta" className="hover:text-slate-900 hover:underline" title="Mi cuenta">
+            <span className="hidden md:inline">{sesion.email}</span>
+            <span className="md:hidden">Mi cuenta</span>
+          </Link>
           <form action="/auth/salir" method="post">
             <button className="text-marca hover:underline">Salir</button>
           </form>

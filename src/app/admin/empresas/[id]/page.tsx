@@ -106,10 +106,11 @@ export default async function EmpresaAdmin({ params, searchParams }: PageProps<"
             </li>
           ))}
         </ul>
-        <form action={agregarUsuario} className="mt-3 grid gap-2 border-t border-slate-100 pt-3 sm:grid-cols-[1fr_1fr_9rem_auto]">
+        <form action={agregarUsuario} className="mt-3 grid gap-2 border-t border-slate-100 pt-3 sm:grid-cols-[1fr_1fr_1fr_9rem_auto]">
           <input type="hidden" name="id" value={id} />
           <input name="email" type="email" required placeholder="correo@empresa.com" className="campo" />
           <input name="nombre" placeholder="Nombre" className="campo" />
+          <input name="clave" type="password" minLength={8} placeholder="Contraseña inicial (opcional)" className="campo" autoComplete="new-password" />
           <select name="rol" className="campo"><option value="admin">Administrador</option><option value="usuario">Usuario</option></select>
           <button className="boton-primario">Agregar</button>
         </form>
