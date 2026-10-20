@@ -31,11 +31,23 @@ export const repo = {
     if (f.abiertos) q = q.gt("fecha_cierre_ofertas", new Date().toISOString());
     if (f.mipyme) q = q.eq("es_mipyme", true);
     if (f.q) for (const w of normalizar(f.q).split(" ").filter(Boolean)) q = q.ilike("texto_busqueda", `%${w}%`);
-    q = q.order("fecha_publicacion", { ascending: false });
-    q = todo ? q.limit(5000) : q.range((f.pagina - 1) * POR_PAGINA, f.pagina * POR_PAGINA - 1);
-    const { data, count, error } = await q;
-    falla(error, "listar");
-    return { filas: (data ?? []) as unknown as FilaLista[], total: count ?? 0 };
+    q = q.order("fecha_publicacion", { ascending: false }).order("id");
+    if (!todo) {
+      const { data, count, error } = await q.range((f.pagina - 1) * POR_PAGINA, f.pagina * POR_PAGINA - 1);
+      falla(error, "listar");
+      return { filas: (data ?? []) as unknown as FilaLista[], total: count ?? 0 };
+    }
+    // Exportación: PostgREST entrega máximo 1,000 filas por consulta → paginar hasta 5,000
+    const filas: FilaLista[] = [];
+    let total = 0;
+    for (let ini = 0; ini < 5000; ini += 1000) {
+      const { data, count, error } = await q.range(ini, ini + 999);
+      falla(error, "exportar");
+      total = count ?? total;
+      filas.push(...((data ?? []) as unknown as FilaLista[]));
+      if (!data || data.length < 1000) break;
+    }
+    return { filas, total };
   },
 
   async porEstados(empresaId: string, estados: readonly EstadoInterno[]) {

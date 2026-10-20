@@ -12,7 +12,8 @@
     "migrar": "tsx worker/migrar.ts",
     "sembrar": "tsx worker/sembrar.ts",
     "alertas": "tsx worker/alertas.ts",
-    "catalogo": "tsx worker/catalogo.ts"
+    "catalogo": "tsx worker/catalogo.ts",
+    "reclasificar": "tsx worker/reclasificar.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
