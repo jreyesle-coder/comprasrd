@@ -50,6 +50,8 @@ export interface Filtros {
   mipyme?: boolean;
   q?: string;
   pagina: number;
+  orden: ColumnaOrden;
+  dir: "asc" | "desc";
 }
 
 export interface FilaLista {
@@ -114,6 +116,19 @@ export interface UltimaSync {
 
 export const POR_PAGINA = 50;
 
+/** Columnas por las que se puede ordenar el listado (clave en la URL → columna de procesos_lista). */
+export const COLUMNAS_ORDEN = {
+  proceso: "titulo",
+  institucion: "institucion",
+  categoria: "subcategoria",
+  modalidad: "modalidad",
+  monto: "monto_estimado",
+  publicado: "fecha_publicacion",
+  cierre: "fecha_cierre_ofertas",
+  interno: "estado_interno",
+} as const;
+export type ColumnaOrden = keyof typeof COLUMNAS_ORDEN;
+
 type Params = Record<string, string | string[] | undefined>;
 
 export function leerFiltros(sp: Params): Filtros {
@@ -142,6 +157,8 @@ export function leerFiltros(sp: Params): Filtros {
     mipyme: s("mipyme") === "1",
     q: s("q"),
     pagina: Math.max(1, n("pagina") ?? 1),
+    orden: (s("orden") ?? "") in COLUMNAS_ORDEN ? (s("orden") as ColumnaOrden) : "publicado",
+    dir: s("dir") === "asc" ? "asc" : s("dir") === "desc" ? "desc" : s("orden") && !["publicado", "monto"].includes(s("orden")!) ? "asc" : "desc",
   };
 }
 

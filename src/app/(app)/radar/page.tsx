@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { fechaRD, formatoFecha, sumarDias } from "@/lib/fechas";
-import { aQuery, ESTADOS_INTERNOS, ESTADOS_PROCESO, ETIQUETA_ESTADO_INTERNO, leerFiltros, MODALIDADES, POR_PAGINA, repo } from "@/lib/repo";
+import { aQuery, type ColumnaOrden, ESTADOS_INTERNOS, ESTADOS_PROCESO, ETIQUETA_ESTADO_INTERNO, leerFiltros, MODALIDADES, POR_PAGINA, repo } from "@/lib/repo";
 import { requerirEmpresa } from "@/lib/sesion";
 import { ChipGrupo, DiasRestantes, Encabezado, EstadoInternoTexto, monto, Pie } from "@/componentes/comunes";
 import { Bienvenida } from "./bienvenida";
 
 export const metadata: Metadata = { title: "Radar" };
+
+const COLUMNAS: [ColumnaOrden, string, boolean?][] = [
+  ["proceso", "Proceso"],
+  ["institucion", "Institución"],
+  ["categoria", "Categoría"],
+  ["modalidad", "Modalidad"],
+  ["monto", "Monto estimado", true],
+  ["publicado", "Publicado"],
+  ["cierre", "Cierre"],
+  ["interno", "Interno"],
+];
 
 export default async function Radar({ searchParams }: PageProps<"/radar">) {
   const s = await requerirEmpresa();
@@ -21,7 +32,7 @@ export default async function Radar({ searchParams }: PageProps<"/radar">) {
     repo.ultimaSync(),
   ]);
   const paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
-  const hayFiltros = Object.keys(sp).some((k) => k !== "pagina");
+  const hayFiltros = Object.keys(sp).some((k) => !["pagina", "orden", "dir"].includes(k));
   const subcats = reglas.filter((r) => r.activa && (!f.grupo || r.grupo === f.grupo));
   const hoy = fechaRD();
 
@@ -128,6 +139,18 @@ export default async function Radar({ searchParams }: PageProps<"/radar">) {
                 <input type="checkbox" name="mipyme" value="1" defaultChecked={f.mipyme} className="h-4 w-4" /> Solo MIPYME
               </label>
             </div>
+            <div>
+              <label className="etiqueta" htmlFor="orden">Ordenar por</label>
+              <div className="flex gap-2">
+                <select id="orden" name="orden" defaultValue={f.orden} className="campo">
+                  {COLUMNAS.map(([clave, texto]) => <option key={clave} value={clave}>{texto}</option>)}
+                </select>
+                <select name="dir" defaultValue={f.dir} className="campo w-28" aria-label="Dirección">
+                  <option value="desc">Mayor a menor</option>
+                  <option value="asc">Menor a mayor</option>
+                </select>
+              </div>
+            </div>
             <div className="flex items-end gap-2 sm:col-span-2 lg:col-span-4">
               <button className="boton-primario">Aplicar filtros</button>
               <Link href="/radar" className="boton-secundario">Limpiar</Link>
@@ -153,14 +176,22 @@ export default async function Radar({ searchParams }: PageProps<"/radar">) {
               <table className="w-full text-left text-sm">
                 <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                   <tr>
-                    <th className="px-3 py-2 font-medium">Proceso</th>
-                    <th className="px-3 py-2 font-medium">Institución</th>
-                    <th className="px-3 py-2 font-medium">Categoría</th>
-                    <th className="px-3 py-2 font-medium">Modalidad</th>
-                    <th className="px-3 py-2 text-right font-medium">Monto estimado</th>
-                    <th className="px-3 py-2 font-medium">Publicado</th>
-                    <th className="px-3 py-2 font-medium">Cierre</th>
-                    <th className="px-3 py-2 font-medium">Interno</th>
+                    {COLUMNAS.map(([clave, texto, derecha]) => {
+                      const activa = f.orden === clave;
+                      const dir = activa ? (f.dir === "asc" ? "desc" : "asc") : clave === "publicado" || clave === "monto" ? "desc" : "asc";
+                      return (
+                        <th key={clave} className={`px-3 py-2 font-medium ${derecha ? "text-right" : ""}`} aria-sort={activa ? (f.dir === "asc" ? "ascending" : "descending") : undefined}>
+                          <Link
+                            href={`/radar${aQuery(sp, { orden: clave, dir, pagina: undefined })}`}
+                            className={`inline-flex items-center gap-1 hover:text-slate-900 ${activa ? "text-slate-900" : ""}`}
+                            title={`Ordenar por ${texto.toLowerCase()}`}
+                          >
+                            {texto}
+                            <span className={activa ? "text-marca" : "text-slate-300"}>{activa ? (f.dir === "asc" ? "▲" : "▼") : "↕"}</span>
+                          </Link>
+                        </th>
+                      );
+                    })}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
