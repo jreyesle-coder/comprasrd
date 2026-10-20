@@ -40,7 +40,7 @@ export function TablaProveedores({ proveedores, dias }: { proveedores: Proveedor
                 <tr key={p.rpe}>
                   <td className="py-2 pr-3">
                     <Link href={`/competencia?dias=${dias}&rpe=${encodeURIComponent(p.rpe)}`} className="font-medium text-slate-900 hover:text-marca">{p.proveedor}</Link>
-                    <div className="text-xs text-slate-500">RPE {p.rpe} · {p.instituciones} institución{p.instituciones === 1 ? "" : "es"}</div>
+                    <div className="text-xs text-slate-500">RPE {p.rpe} · {p.instituciones} {p.instituciones === 1 ? "institución" : "instituciones"}</div>
                   </td>
                   <td className="py-2 pr-3 text-right tabular-nums">{p.contratos}</td>
                   <td className="whitespace-nowrap py-2 pr-3 text-right tabular-nums">{montoCorto(Number(p.monto))}</td>
