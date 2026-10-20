@@ -182,7 +182,7 @@ export const EXCLUSIONES_UNSPSC: string[] = [
 export const EXCLUSIONES_PALABRAS: string[] = [
   // vehículos y flotilla
   "vehiculo", "vehicular", "flotilla", "autobus", "camioneta", "camion", "jeep", "motocicleta", "automotriz",
-  "ambulancia", "desabolladura", "neumatico", "gomas", "combustible", "lubricante",
+  "ambulancia", "desabolladura", "neumatico", "gomas", "combustible", "lubricante", "diesel", "gasoil", "gasolina",
   // insumos (no servicios)
   "material de limpieza", "materiales de limpieza", "productos de limpieza", "insumos de limpieza",
   "articulos de limpieza", "suministros de limpieza", "articulos de aseo", "material gastable", "materiales gastables",

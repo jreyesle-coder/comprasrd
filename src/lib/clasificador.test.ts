@@ -82,6 +82,12 @@ describe("exclusiones por palabra", () => {
     expect(clasificar({ titulo: "Compra de neumáticos y reparación" }).relevante).toBe(false);
   });
 
+  it("compra de combustible para planta eléctrica no entra", () => {
+    expect(clasificar({ titulo: "COMPRA DE DIESEL PARA PLANTA ELECTRICA" }).relevante).toBe(false);
+    expect(clasificar({ titulo: "Suministro de gasoil para la planta eléctrica" }).relevante).toBe(false);
+    expect(clasificar({ titulo: "Generador eléctrico diésel 60 kW" }, [{ subclase_unspsc: "26111601" }]).relevante).toBe(true);
+  });
+
   it("'servidores públicos' no cuenta como servidor informático", () => {
     expect(clasificar({ titulo: "Capacitación para servidores públicos" }).relevante).toBe(false);
   });
