@@ -28,7 +28,7 @@ const db = createClient(process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPA
 });
 const RESEND = process.env.RESEND_API_KEY;
 const REMITENTE = process.env.ALERTAS_REMITENTE || "Radar de Compras <onboarding@resend.dev>";
-const URL_APP = (process.env.URL_APP || "https://comprasrd-zkbu.vercel.app").replace(/\/$/, "");
+const URL_APP = (process.env.URL_APP || "https://comprasrd.vercel.app").replace(/\/$/, "");
 
 async function enviar(para: string[], asunto: string, html: string, texto: string) {
   const r = await fetch("https://api.resend.com/emails", {

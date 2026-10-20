@@ -35,7 +35,7 @@ Detalles de la API y de la estrategia de ingesta: [`docs/campos-api.md`](docs/ca
 ### GitHub (Settings → Secrets and variables → Actions)
 
 - Secrets: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` (para los correos).
-- Variables: `URL_APP` (ej. `https://comprasrd-zkbu.vercel.app`), `ALERTAS_REMITENTE` (ej. `Radar de Compras <alertas@tudominio.com>`).
+- Variables: `URL_APP` (ej. `https://comprasrd.vercel.app`), `ALERTAS_REMITENTE` (ej. `Radar de Compras <alertas@tudominio.com>`).
 
 ### Vercel (Settings → Environment Variables)
 
