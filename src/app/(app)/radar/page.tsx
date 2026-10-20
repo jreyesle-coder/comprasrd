@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { fechaRD, formatoFecha } from "@/lib/fechas";
+import { fechaRD, formatoFecha, sumarDias } from "@/lib/fechas";
 import { aQuery, ESTADOS_INTERNOS, ESTADOS_PROCESO, ETIQUETA_ESTADO_INTERNO, leerFiltros, MODALIDADES, POR_PAGINA, repo } from "@/lib/repo";
 import { requerirEmpresa } from "@/lib/sesion";
 import { ChipGrupo, DiasRestantes, Encabezado, EstadoInternoTexto, monto, Pie } from "@/componentes/comunes";
@@ -26,7 +26,7 @@ export default async function Radar({ searchParams }: PageProps<"/radar">) {
   const hoy = fechaRD();
 
   const tarjetas = [
-    { titulo: "Nuevos hoy", valor: cont.nuevosHoy, href: `/radar?desde=${hoy}` },
+    { titulo: "Nuevos (ayer y hoy)", valor: cont.nuevosHoy, href: `/radar?desde=${sumarDias(hoy, -1)}` },
     { titulo: "Abiertos", valor: cont.abiertos, href: "/radar?abiertos=1" },
     { titulo: "Cierran en ≤ 7 días", valor: cont.cierranSemana, href: "/radar?abiertos=1", alerta: true },
     ...cont.porGrupo.map((g) => ({

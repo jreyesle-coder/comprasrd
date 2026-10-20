@@ -74,7 +74,7 @@ export const repo = {
       return count ?? 0;
     };
     const [nuevosHoy, abiertos, cierranSemana, ...porGrupo] = await Promise.all([
-      contar(base().gte("fecha_publicacion", inicioDiaRD(fechaRD()).toISOString())),
+      contar(base().gte("fecha_publicacion", inicioDiaRD(sumarDias(fechaRD(), -1)).toISOString())), // la DGCP publica con ~1 día de atraso
       contar(base().gt("fecha_cierre_ofertas", ahora)),
       contar(base().gt("fecha_cierre_ofertas", ahora).lt("fecha_cierre_ofertas", en7)),
       ...grupos.map((g) => contar(base().gt("fecha_cierre_ofertas", ahora).contains("grupos", [g]))),
