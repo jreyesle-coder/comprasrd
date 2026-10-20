@@ -1,10 +1,14 @@
-export const ESTADOS_INTERNOS = ["nuevo", "interesa", "en_preparacion", "ofertado", "descartado"] as const;
+export const ESTADOS_INTERNOS = ["nuevo", "interesa", "en_preparacion", "ofertado", "ganado", "perdido", "descartado"] as const;
+/** Columnas del pipeline comercial */
+export const ESTADOS_PIPELINE = ["interesa", "en_preparacion", "ofertado", "ganado", "perdido"] as const;
 export type EstadoInterno = (typeof ESTADOS_INTERNOS)[number];
 export const ETIQUETA_ESTADO_INTERNO: Record<EstadoInterno, string> = {
   nuevo: "Nuevo",
   interesa: "Interesa",
   en_preparacion: "En preparación",
   ofertado: "Ofertado",
+  ganado: "Ganado",
+  perdido: "Perdido",
   descartado: "Descartado",
 };
 
@@ -32,7 +36,7 @@ export const ESTADOS_PROCESO = [
 ];
 
 export interface Filtros {
-  categoria?: "tecnologia" | "servicios_generales";
+  grupo?: string;
   subcategoria?: string;
   institucion?: number;
   modalidad?: string;
@@ -62,9 +66,12 @@ export interface FilaLista {
   moneda: string | null;
   es_mipyme: boolean;
   url_portal: string | null;
-  categoria: "tecnologia" | "servicios_generales" | "ambas" | null;
-  subcategoria: string | null;
+  grupo: string;
+  grupos: string[];
+  subcategoria: string;
   subcategorias: string[];
+  detectado_en: string | null;
+  monto_ofertado: number | null;
   motivo_match: string | null;
   estado_interno: EstadoInterno;
   nota: string | null;
@@ -85,6 +92,8 @@ export interface Detalle extends FilaLista {
     relevante: boolean;
   }[];
   documentos: { titulo: string | null; tipo: string | null; url: string; fecha_publicacion: string | null }[];
+  contratos: { codigo_contrato: string; proveedor: string | null; rpe: string | null; valor_contratado: number | null; moneda: string | null; fecha_adjudicacion: string | null; estado_adjudicacion: string | null; url_contrato: string | null }[];
+  ofertas: { proveedor: string | null; rpe: string | null; valor_oferta: number | null; estado_evaluacion: string | null }[];
   seguimiento_actualizado_por: string | null;
   seguimiento_actualizado_en: string | null;
 }
@@ -93,8 +102,7 @@ export interface Contadores {
   nuevosHoy: number;
   abiertos: number;
   cierranSemana: number;
-  tecnologia: number;
-  servicios: number;
+  porGrupo: { grupo: string; abiertos: number }[];
 }
 
 export interface UltimaSync {
@@ -105,15 +113,6 @@ export interface UltimaSync {
 }
 
 export const POR_PAGINA = 50;
-
-export interface Repo {
-  listar(f: Filtros, todo?: boolean): Promise<{ filas: FilaLista[]; total: number }>;
-  contadores(): Promise<Contadores>;
-  instituciones(): Promise<{ codigo: number; nombre: string }[]>;
-  detalle(id: number): Promise<Detalle | null>;
-  ultimaSync(): Promise<UltimaSync | null>;
-  guardarSeguimiento(id: number, estado: EstadoInterno, nota: string, usuario: string): Promise<void>;
-}
 
 type Params = Record<string, string | string[] | undefined>;
 
@@ -127,10 +126,9 @@ export function leerFiltros(sp: Params): Filtros {
     const v = s(k)?.replace(/[^\d.]/g, "");
     return v ? Number(v) : undefined;
   };
-  const cat = s("categoria");
   const ei = s("estado_interno");
   return {
-    categoria: cat === "tecnologia" || cat === "servicios_generales" ? cat : undefined,
+    grupo: s("grupo"),
     subcategoria: s("subcategoria"),
     institucion: n("institucion"),
     modalidad: s("modalidad"),

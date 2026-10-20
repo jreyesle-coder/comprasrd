@@ -40,3 +40,8 @@ export function formatoFecha(iso: string | null | undefined): string {
     new Date(iso),
   );
 }
+
+/** Instante de hace N horas, en ISO. */
+export function haceHoras(horas: number): string {
+  return new Date(Date.now() - horas * 3_600_000).toISOString();
+}

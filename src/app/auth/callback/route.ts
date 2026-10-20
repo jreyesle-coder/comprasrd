@@ -16,5 +16,5 @@ export async function GET(request: Request) {
       ? await sb.auth.verifyOtp({ token_hash: tokenHash, type })
       : { error: new Error("Enlace incompleto") };
 
-  return NextResponse.redirect(new URL(error ? "/login?error=enlace" : "/", url.origin));
+  return NextResponse.redirect(new URL(error ? "/login?error=enlace" : "/radar", url.origin));
 }

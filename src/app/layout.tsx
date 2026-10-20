@@ -6,8 +6,8 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Radar de Compras Públicas RD",
-  description: "Procesos de compras del Estado dominicano en Tecnología y Servicios generales",
+  title: { default: "Radar de Compras Públicas RD", template: "%s · Radar de Compras" },
+  description: "Las oportunidades de compras del Estado dominicano en tus rubros, cada mañana en tu correo.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

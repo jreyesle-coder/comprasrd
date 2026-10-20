@@ -1,0 +1,31 @@
+name: Alertas diarias
+
+on:
+  schedule:
+    # 08:00 hora RD (UTC-4), después de la sincronización de las 07:30
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: alertas
+  cancel-in-progress: false
+
+jobs:
+  alertas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Enviar resúmenes
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ALERTAS_REMITENTE: ${{ vars.ALERTAS_REMITENTE }}
+          URL_APP: ${{ vars.URL_APP }}
+        run: npm run alertas

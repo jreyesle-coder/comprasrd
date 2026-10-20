@@ -1,13 +1,13 @@
 import ExcelJS from "exceljs";
-import { CATEGORIA_ETIQUETA } from "../../../../config/categorias";
 import { diasRestantes, fechaRD } from "@/lib/fechas";
 import { ETIQUETA_ESTADO_INTERNO, leerFiltros, repo } from "@/lib/repo";
-import { usuarioActual } from "@/lib/supabase/server";
+import { obtenerSesion } from "@/lib/sesion";
 
 export async function GET(request: Request) {
-  if (!(await usuarioActual())) return new Response("No autorizado", { status: 401 });
+  const sesion = await obtenerSesion();
+  if (!sesion?.empresa || !sesion.habilitada) return new Response("No autorizado", { status: 401 });
   const sp = Object.fromEntries(new URL(request.url).searchParams);
-  const { filas } = await repo.listar(leerFiltros(sp), true);
+  const { filas } = await repo.listar(sesion.empresa.id, leerFiltros(sp), true);
 
   const libro = new ExcelJS.Workbook();
   const hoja = libro.addWorksheet("Procesos");
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       codigo: p.codigo_proceso,
       titulo: p.titulo,
       institucion: p.institucion,
-      categoria: p.categoria ? CATEGORIA_ETIQUETA[p.categoria] : "",
+      categoria: p.grupos.join(", "),
       subcategoria: p.subcategorias.join(", "),
       modalidad: p.modalidad,
       estado: p.estado,
@@ -63,7 +63,7 @@ export async function GET(request: Request) {
   return new Response(buffer as ArrayBuffer, {
     headers: {
       "content-type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "content-disposition": `attachment; filename="radar-compras-${fechaRD()}.xlsx"`,
+      "content-disposition": `attachment; filename="radar-${sesion.empresa.slug}-${fechaRD()}.xlsx"`,
     },
   });
 }

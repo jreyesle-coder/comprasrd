@@ -4,9 +4,7 @@ import { cookies } from "next/headers";
 export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
-/** Sin variables de Supabase la app corre en modo demo (datos del modo seco del sincronizador, sin login). */
-export const MODO_DEMO = !SUPABASE_URL || !SUPABASE_ANON_KEY;
-
+/** Cliente con la sesión del usuario (respeta RLS). */
 export async function supabaseServidor() {
   const store = await cookies();
   return createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -21,11 +19,4 @@ export async function supabaseServidor() {
       },
     },
   });
-}
-
-export async function usuarioActual(): Promise<string | null> {
-  if (MODO_DEMO) return "modo demo";
-  const sb = await supabaseServidor();
-  const { data } = await sb.auth.getUser();
-  return data.user?.email ?? null;
 }

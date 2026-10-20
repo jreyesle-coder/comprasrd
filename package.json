@@ -9,7 +9,10 @@
     "lint": "eslint",
     "sync": "tsx worker/sync.ts",
     "test": "vitest run",
-    "reclasificar": "tsx worker/reclasificar.ts"
+    "migrar": "tsx worker/migrar.ts",
+    "sembrar": "tsx worker/sembrar.ts",
+    "alertas": "tsx worker/alertas.ts",
+    "catalogo": "tsx worker/catalogo.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -17,9 +20,11 @@
     "exceljs": "^4.4.0",
     "next": "16.4.2",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.10",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^24.19.2",
     "@types/react": "^19",
