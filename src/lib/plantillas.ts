@@ -33,6 +33,7 @@ export function normalizarCodigos(lista: string[]): string[] {
 export const PLANTILLAS: { id: Categoria; nombre: string }[] = [
   { id: "tecnologia", nombre: CATEGORIA_ETIQUETA.tecnologia },
   { id: "servicios_generales", nombre: CATEGORIA_ETIQUETA.servicios_generales },
+  { id: "construccion", nombre: CATEGORIA_ETIQUETA.construccion },
 ];
 
 export function reglasDePlantillas(ids: Categoria[]): ReglaPlantilla[] {

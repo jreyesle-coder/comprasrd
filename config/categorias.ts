@@ -9,7 +9,7 @@
  * Códigos validados contra GET /catalogo el 2026-10-17 (ver docs/campos-api.md).
  */
 
-export type Categoria = "tecnologia" | "servicios_generales";
+export type Categoria = "tecnologia" | "servicios_generales" | "construccion";
 
 export interface Subcategoria {
   categoria: Categoria;
@@ -169,6 +169,43 @@ export const SUBCATEGORIAS: Subcategoria[] = [
   },
 ];
 
+// ───────────── Construcción ─────────────
+SUBCATEGORIAS.push(
+  {
+    categoria: "construccion",
+    nombre: "Obras de edificación",
+    unspsc: ["7213"],
+    palabras: [
+      "construccion", "edificacion", "edificio", "ampliacion", "remodelacion", "rehabilitacion", "remozamiento",
+      "construccion de aulas", "obra civil", "obras civiles",
+    ],
+  },
+  {
+    categoria: "construccion",
+    nombre: "Obras viales e infraestructura",
+    unspsc: ["7214"],
+    palabras: [
+      "carretera", "camino vecinal", "asfaltado", "asfalto", "pavimentacion", "acera", "contenes", "puente", "badenes",
+      "drenaje pluvial", "alcantarillado", "obra vial", "obras viales",
+    ],
+  },
+  {
+    categoria: "construccion",
+    nombre: "Ingeniería, diseño y supervisión",
+    unspsc: ["811015"],
+    palabras: [
+      "supervision de obra", "supervision de obras", "fiscalizacion de obra", "diseno arquitectonico", "estudio de suelo",
+      "estudios de suelo", "topografia", "levantamiento topografico", "presupuesto de obra", "planos",
+    ],
+  },
+  {
+    categoria: "construccion",
+    nombre: "Materiales de construcción",
+    unspsc: ["3011", "3012", "3013", "3015", "3016", "3017"],
+    palabras: ["materiales de construccion", "cemento", "varilla", "blocks", "arena", "gravilla", "agregados"],
+  },
+);
+
 /** Subclases UNSPSC que NUNCA cuentan aunque caigan dentro de un prefijo de arriba. */
 export const EXCLUSIONES_UNSPSC: string[] = [
   "26111703", // Baterías para vehículos
@@ -195,5 +232,6 @@ export const EXCLUSIONES_PALABRAS: string[] = [
 export const CATEGORIA_ETIQUETA: Record<Categoria | "ambas", string> = {
   tecnologia: "Tecnología",
   servicios_generales: "Servicios generales",
+  construccion: "Construcción",
   ambas: "Ambas",
 };
