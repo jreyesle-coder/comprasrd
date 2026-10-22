@@ -33,6 +33,7 @@ const LIMITE = 1000;
 const TOPE_PAGINAS = Number(arg("tope-paginas") ?? 400);
 const TOPE_FALTANTES = Number(arg("tope-faltantes") ?? 150);
 const TOPE_DOCS = Number(arg("tope-docs") ?? 400);
+const TOPE_ANTERIORES = Number(arg("tope-anteriores") ?? 150);
 const DIAS_RETENCION = Number(process.env.DIAS_RETENCION ?? 120);
 
 const log = (m: string) => console.log(`[${new Date().toISOString().slice(11, 19)}] ${m}`);
@@ -199,6 +200,33 @@ async function main() {
     });
     await almacen.guardarFilas("ofertas", dedupe(ofertas, "id_oferta"), "id_oferta");
     log(`Contratos ${contratos.length} · ofertas ${ofertas.length}`);
+
+    // 5b. Procesos anteriores que tienen contratos pero no están guardados (para el historial de Competencia)
+    const faltantes2 = await almacen.rpc<{ codigo_proceso: string }[]>("procesos_faltantes_de_contratos", { p_tope: TOPE_ANTERIORES });
+    if (faltantes2.length) {
+      log(`Procesos anteriores con contrato sin guardar: ${faltantes2.length} (tope ${TOPE_ANTERIORES})`);
+      const lote2: { fila: FilaProceso; articulos: FilaArticulo[] }[] = [];
+      for (const { codigo_proceso } of faltantes2) {
+        try {
+          const rp = await api.get<ProcesoApi>("/procesos", { proceso: codigo_proceso, limit: 5 });
+          const p = (rp.payload.content ?? []).find((x) => x.codigo_proceso === codigo_proceso);
+          if (!p) continue;
+          const ra = await api.get<ArticuloApi>("/procesos/articulos", { proceso: codigo_proceso, limit: LIMITE });
+          lote2.push({ fila: aFila(p), articulos: (ra.payload.content ?? []).map(aArticulo) });
+        } catch (e) {
+          errores.push(`proceso anterior ${codigo_proceso}: ${(e as Error).message}`);
+        }
+      }
+      await almacen.guardarProcesos(lote2);
+      const { data: ids } = await almacen.db.from("procesos").select("id").in("codigo_proceso", lote2.map((x) => x.fila.codigo_proceso));
+      const { data: emps } = await almacen.db.from("empresas").select("id").neq("estado", "suspendida");
+      for (const e of emps ?? []) {
+        resumen.coincidencias += await almacen.rpc<number>("clasificar_procesos", {
+          p_empresa: e.id, p_desde: "2000-01-01T00:00:00Z", p_proceso_ids: (ids ?? []).map((x) => x.id),
+        });
+      }
+      log(`Procesos anteriores guardados: ${lote2.length}`);
+    }
 
     // 6. Documentos
     const pendientes = await almacen.rpc<{ id: number; codigo_proceso: string }[]>("pendientes_documentos", { p_tope: TOPE_DOCS });

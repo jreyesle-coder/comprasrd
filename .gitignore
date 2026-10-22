@@ -43,3 +43,6 @@ next-env.d.ts
 # salida del modo seco del sincronizador
 /worker/salida/
 !.env.example
+
+# reportes generados a pedido
+/reportes/
